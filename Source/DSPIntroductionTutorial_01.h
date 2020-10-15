@@ -135,6 +135,9 @@ public:
 
         processorChain.get<osc1Index>().setFrequency (freqHz, true);
         processorChain.get<osc1Index>().setLevel (velocity);
+
+        processorChain.get<osc2Index>().setFrequency(freqHz * 1.01f, true);
+        processorChain.get<osc2Index>().setLevel(velocity);
     }
 
     //==============================================================================
@@ -142,6 +145,7 @@ public:
     {
         auto freqHz = (float) getCurrentlyPlayingNote().getFrequencyInHertz();
         processorChain.get<osc1Index>().setFrequency (freqHz);
+        processorChain.get<osc1Index>().setFrequency(freqHz * 1.01f);
     }
 
     //==============================================================================
@@ -176,10 +180,11 @@ private:
     enum
     {
         osc1Index,
+        osc2Index,
         masterGainIndex
     };
 
-    juce::dsp::ProcessorChain<CustomOscillator<float>, juce::dsp::Gain<float>> processorChain;
+    juce::dsp::ProcessorChain<CustomOscillator<float>, CustomOscillator<float>, juce::dsp::Gain<float>> processorChain;
 
     static constexpr size_t lfoUpdateRate = 100;
 };
